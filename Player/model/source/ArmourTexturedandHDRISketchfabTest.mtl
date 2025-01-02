@@ -1,0 +1,50 @@
+# Blender 3.6.0 MTL File: 'ArmourTexturedandHDRI.blend'
+# www.blender.org
+
+newmtl ArmourCapeBack
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd C:/ArmourMaterial_Cape.017_BaseColor.png
+map_d C:/ArmourMaterial_Cape.017_BaseColor.png
+map_Bump -bm 1.000000 C:/ArmourMaterial_Cape.017_Normal.png
+
+newmtl ArmourCapeFront
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+Pr 0.500000
+Pm 0.000000
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd C:/ArmourMaterial_ChestCloth.008_BaseColor.png
+map_d C:/ArmourMaterial_ChestCloth.008_BaseColor.png
+map_Bump -bm 1.000000 C:/ArmourMaterial_ChestCloth.008_Normal.png
+
+newmtl ArmourMain
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+Ps 0.000000
+Pc 0.000000
+Pcr 0.030000
+aniso 0.000000
+anisor 0.000000
+map_Kd C:/Mesh_Base_Color.PNG
+map_Pm C:/Mesh_Metallic.PNG
+map_Pr C:/Mesh_Roughness.PNG
+map_Bump -bm 1.000000 C:/Mesh_Normal.PNG
