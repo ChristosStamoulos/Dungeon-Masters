@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-   
-        InputManager inputManager;
-        PlayerLocomotion playerLocomotion;
+    InputManager inputManager;
+    PlayerLocomotion playerLocomotion;
 
-        private void Awake()
-        {
-            inputManager = GetComponent<InputManager>();
-            playerLocomotion = GetComponent<PlayerLocomotion>();
-        }
+    private void Awake()
+    {
+        inputManager = GetComponent<InputManager>();
+        playerLocomotion = GetComponent<PlayerLocomotion>();
+    }
 
-        private void Update()
-        {
-            inputManager.HandleInputs();
-        }
+    private void Update()
+    {
+        inputManager.HandleInputs();
+    }
 
-        private void FixedUpdate()
-        {
-            playerLocomotion.HandlePlayer();
-        }
-    
-
-
+    private void FixedUpdate()
+    {
+        playerLocomotion.HandlePlayer();
+    }
 }

@@ -4,30 +4,39 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    PlayerControls playerControls;
+    PlayerControls _playerControls;
+
+    PlayerControls Controls
+    {
+        get
+        {
+            if (_playerControls == null)
+            {
+                _playerControls = new PlayerControls();
+                _playerControls.PlayerControlMovment.Movment.performed += i => movementInput = i.ReadValue<Vector2>();
+            }
+
+            return _playerControls;
+        }
+    }
 
     public  Vector2 movementInput;
     public float verticalInput;
     public float horizontalInput;
 
-
+    public void Start()
+    {
+        
+    }
 
     private void OnEnable()
     {
-        if (playerControls == null)
-        {
-            playerControls = new PlayerControls();
-
-            playerControls.PlayerControlMovment.Movment.performed += i => movementInput = i.ReadValue<Vector2>();
-
-        }
-
-        playerControls.Enable();
+        Enable(true);
     }
 
     private void OnDisable()
     {
-        playerControls.Disable();
+        Enable(false);
     }
 
     private void HandleMovementInput()
@@ -36,11 +45,21 @@ public class InputManager : MonoBehaviour
         horizontalInput = movementInput.x;
     }
 
-
-
     public void HandleInputs()
     {
         HandleMovementInput();
     }
 
+    public void Enable(bool enable)
+    {
+        if (enable)
+        {
+            Controls.Enable();
+        }
+        
+        else
+        {
+            Controls.Disable();
+        }
+    }
 }
