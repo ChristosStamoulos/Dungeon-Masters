@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerLocomotion : MonoBehaviour
 {
-   
+
     private InputManager inputManager;
+
+    [SerializeField]
     private Transform cameraObject;
+
     private Rigidbody player;
 
     private Animator animator;
-   
+
     public float movementSpeed = 7f;
     public float rotationSpeed = 15f;
 
@@ -35,12 +38,13 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleMovement()
     {
-        
+
         moveDirection = cameraObject.forward * inputManager.verticalInput;
         moveDirection += cameraObject.right * inputManager.horizontalInput;
+        //moveDirection += Quaternion.AngleAxis(cameraObject.rotation.eulerAngles.y, Vector3.up) * moveDirection;
         moveDirection.y = 0f;
 
-        if (moveDirection.sqrMagnitude > 0.01f) 
+        if (moveDirection.sqrMagnitude > 0.01f)
         {
             animator.SetBool("IsMoving", true);
             moveDirection.Normalize();
@@ -56,8 +60,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleRotation()
     {
-        Vector3 targetDirection = cameraObject.forward * inputManager.verticalInput +
-                                  cameraObject.right * inputManager.horizontalInput;
+        Vector3 targetDirection = cameraObject.forward * inputManager.verticalInput + cameraObject.right * inputManager.horizontalInput;
 
         targetDirection.y = 0f;
 
@@ -65,7 +68,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection.normalized);
             Quaternion smoothedRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            transform.rotation = smoothedRotation;
+            transform.rotation = targetRotation;
         }
     }
 }

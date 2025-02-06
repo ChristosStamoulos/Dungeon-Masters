@@ -10,12 +10,12 @@ public class Spikes_movement : Trap
     public float wait_in;
     public float wait_out;
 
-    void Start()
+    public void Start()
     {
         StartCoroutine(Move_Spikes());
     }
 
-    IEnumerator Move_Spikes()
+    public IEnumerator Move_Spikes()
     {
         while (true)
         {
