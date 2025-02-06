@@ -73,8 +73,13 @@ public class GameManager : MonoBehaviour
 
         if (GetTreasuresLeft() <= 0)
         {
-            // Win();
+            Win();
         }
+    }
+
+    public void Win()
+    {
+
     }
 
     public void Begin()
