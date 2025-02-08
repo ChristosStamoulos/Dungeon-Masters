@@ -2,22 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cinemachine; // Import Cinemachine
+
 public class PlayerLocomotion : MonoBehaviour
 {
-
     private InputManager inputManager;
-
-    [SerializeField]
-    private Transform cameraObject;
-
     private Rigidbody player;
-
     private Animator animator;
+    private Vector3 moveDirection;
+
+    [SerializeField] private Transform cameraObject;
+    [SerializeField] private CinemachineFreeLook cinemachineCamera; 
 
     public float movementSpeed = 7f;
     public float rotationSpeed = 15f;
-
-    private Vector3 moveDirection;
 
     private void Awake()
     {
@@ -28,6 +26,10 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (player == null)
             Debug.LogError("Rigidbody component not found on " + gameObject.name);
+
+        
+        if (cinemachineCamera == null)
+            cinemachineCamera = FindObjectOfType<CinemachineFreeLook>();
     }
 
     public void HandlePlayer()
@@ -38,10 +40,8 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleMovement()
     {
-
         moveDirection = cameraObject.forward * inputManager.verticalInput;
         moveDirection += cameraObject.right * inputManager.horizontalInput;
-        //moveDirection += Quaternion.AngleAxis(cameraObject.rotation.eulerAngles.y, Vector3.up) * moveDirection;
         moveDirection.y = 0f;
 
         if (moveDirection.sqrMagnitude > 0.01f)
@@ -59,16 +59,21 @@ public class PlayerLocomotion : MonoBehaviour
     }
 
     private void HandleRotation()
+{
+    Vector3 targetDirection = cameraObject.forward * inputManager.verticalInput + cameraObject.right * inputManager.horizontalInput;
+    targetDirection.y = 0f;
+
+    if (targetDirection.sqrMagnitude > 0.01f)
     {
-        Vector3 targetDirection = cameraObject.forward * inputManager.verticalInput + cameraObject.right * inputManager.horizontalInput;
-
-        targetDirection.y = 0f;
-
-        if (targetDirection.sqrMagnitude > 0.01f)
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection.normalized);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        
+        if (cinemachineCamera != null)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection.normalized);
-            Quaternion smoothedRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            transform.rotation = targetRotation;
+            float targetYaw = transform.eulerAngles.y;
+            cinemachineCamera.m_XAxis.Value = Mathf.LerpAngle(cinemachineCamera.m_XAxis.Value, targetYaw, Time.deltaTime * 2f);
         }
     }
+}
+
 }
