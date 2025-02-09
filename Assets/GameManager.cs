@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject mainMenuPanel;
     public GameObject gameCamera;
+    public GameObject freeLookCamera;
 
     private UIManager UIManager
     {
@@ -26,29 +28,41 @@ public class GameManager : MonoBehaviour
     {
         UIManager.SetTreasureCount(GetTreasuresLeft());
         EnableControls(false);
-        SetCameraToInitialPosition();
+        EnableCamera(false);
+        CameraFollowObject(GameObject.FindGameObjectWithTag("MainDragon"));
     }
 
-    public void SetCameraToInitialPosition()
-    {
-        CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
+    #region Camera
 
-        if (cameraFollow != null)
+    public void CameraFollowObject(GameObject go)
+    {
+        if (freeLookCamera != null)
         {
-            cameraFollow.target = GameObject.FindGameObjectWithTag("MainDragon").transform;
-            cameraFollow.offset = new Vector3(0.0f, 1.5f, -9.5f);
+            Vector3 targetPosition = go.transform.position;
+            targetPosition.z -= 8;
+            targetPosition.y += 1.5f;
+
+            Transform target = go.transform;
+            CinemachineFreeLook freeLook = freeLookCamera.GetComponent<CinemachineFreeLook>();
+
+            Camera.main.transform.position = targetPosition;
+
+            freeLook.Follow = target;
+            freeLook.LookAt = target;
         }
     }
 
-    public void MakeCameraFollowPlayer()
+    public void EnableCamera(bool enable)
     {
-        CameraFollow cameraFollow = Camera.main.GetComponent<CameraFollow>();
-
-        if (cameraFollow != null)
+        if (freeLookCamera != null)
         {
-            cameraFollow.target = GameObject.FindGameObjectWithTag("Player").transform;
+            freeLookCamera.SetActive(enable);
         }
     }
+
+    #endregion
+
+    #region Controls
 
     public void EnableControls(bool enable)
     {
@@ -59,6 +73,10 @@ public class GameManager : MonoBehaviour
             inputManager.Enable(enable);
         }
     }
+
+    #endregion
+
+    #region Game
 
     public int GetTreasuresLeft()
     {
@@ -82,29 +100,39 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void GameOver()
+    {
+        gameOverPanel.SetActive(true);
+        EnableCamera(false);
+        Pause();
+    }
+
+    #endregion
+
+    #region Game Flow
+
     public void Begin()
     {
+        Debug.Log("Begin()");
+
         mainMenuPanel.SetActive(false);
-        MakeCameraFollowPlayer();
+        CameraFollowObject(GameObject.Find("CameraFocus"));
         Resume();
         EnableControls(true);
+        EnableCamera(true);
         UIManager.ShowGameUI(true);
     }
 
     public void Pause()
     {
         Time.timeScale = 0.0f;
+        EnableCamera(false);
     }
 
     public void Resume()
     {
         Time.timeScale = 1.0f;
-    }
-
-    public void GameOver()
-    {
-        gameOverPanel.SetActive(true);
-        Pause();
+        EnableCamera(true);
     }
 
     public void Restart()
@@ -120,11 +148,14 @@ public class GameManager : MonoBehaviour
         UIManager.ShowGameUI(false);
         mainMenuPanel.SetActive(true);
         EnableControls(false);
-        SetCameraToInitialPosition();
+        EnableCamera(false);
+        CameraFollowObject(GameObject.FindGameObjectWithTag("MainDragon"));
     }
 
     public void Quit()
     {
         Application.Quit();
     }
+
+    #endregion   
 }
