@@ -80,7 +80,8 @@ public class GameManager : MonoBehaviour
 
     public int GetTreasuresLeft()
     {
-        return GameObject.FindGameObjectsWithTag("Treasure").Length;
+        return 1;
+        //return GameObject.FindGameObjectsWithTag("Treasure").Length;
     }
 
     public void OnPickupTreasure()
@@ -89,7 +90,13 @@ public class GameManager : MonoBehaviour
 
         UIManager.SetTreasureCount(treasurseLeft);
 
-        if (GetTreasuresLeft() <= 0)
+        if (treasurseLeft == 1)
+        {
+            GameObject.FindGameObjectWithTag("SecretWall").SetActive(false);
+            GameObject.Find("SecretRoom").SetActive(true);
+        }
+
+        else if (treasurseLeft <= 0)
         {
             Win();
         }

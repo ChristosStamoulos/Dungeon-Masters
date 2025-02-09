@@ -8,6 +8,7 @@ TagManager:
   - Treasure
   - NoCollide
   - FreeLook
+  - SecretWall
   layers:
   - Default
   - TransparentFX
