@@ -80,8 +80,7 @@ public class GameManager : MonoBehaviour
 
     public int GetTreasuresLeft()
     {
-        return 1;
-        //return GameObject.FindGameObjectsWithTag("Treasure").Length;
+        return GameObject.FindGameObjectsWithTag("Treasure").Length;
     }
 
     public void OnPickupTreasure()
