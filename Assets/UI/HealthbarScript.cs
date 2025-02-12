@@ -11,8 +11,18 @@ public class HealthbarScript : MonoBehaviour
     public GameObject healthBar;
     public GameObject heartPrefab;
 
+   
+
+
+        
+
+
     public void SetHearts(int newHearts)
     {
+        float heartSize = Screen.width * 0.07f;
+        float startX = Screen.width * 0.03f;
+        float startY = Screen.height * 0.95f;
+
         if (newHearts < 0)
         {
             throw new ApplicationException("Hearts cannot be negative");
@@ -22,8 +32,9 @@ public class HealthbarScript : MonoBehaviour
         {
             for (int i = _currentHearts; i < newHearts; ++i)
             {
-                GameObject createdHeart = Instantiate(heartPrefab, new Vector3(i * 64 + 32, 550.0f, 0), Quaternion.identity);
-                createdHeart.transform.parent = healthBar.transform;
+                Vector3 position = new Vector3(startX + (i * heartSize*0.5f), startY, 0);
+                GameObject createdHeart = Instantiate(heartPrefab, position, Quaternion.identity, healthBar.transform);
+                createdHeart.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 instantiatedHeartPrefabs.Add(createdHeart);
             }
         }

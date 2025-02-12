@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     private UIManager _uiManager = null;
 
     public GameObject gameOverPanel;
+    public GameObject WinPanel;
     public GameObject mainMenuPanel;
     public GameObject gameCamera;
     public GameObject freeLookCamera;
@@ -103,7 +104,9 @@ public class GameManager : MonoBehaviour
 
     public void Win()
     {
-
+        WinPanel.SetActive(true);
+        EnableCamera(false);
+        Pause();
     }
 
     public void GameOver()
@@ -151,6 +154,7 @@ public class GameManager : MonoBehaviour
     {
         Restart();
         gameOverPanel.SetActive(false);
+        WinPanel.SetActive(false);
         UIManager.ShowGameUI(false);
         mainMenuPanel.SetActive(true);
         EnableControls(false);
