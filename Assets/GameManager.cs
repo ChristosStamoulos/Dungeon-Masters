@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject gameCamera;
     public GameObject freeLookCamera;
+    public GameObject secretRoom;
 
     private UIManager UIManager
     {
@@ -88,12 +89,22 @@ public class GameManager : MonoBehaviour
     {
         int treasurseLeft = GetTreasuresLeft();
 
+        if (!secretRoom.activeSelf)
+        {
+            treasurseLeft += 1;
+        }
+
         UIManager.SetTreasureCount(treasurseLeft);
 
         if (treasurseLeft == 1)
         {
-            GameObject.FindGameObjectWithTag("SecretWall").SetActive(false);
-            GameObject.Find("SecretRoom").SetActive(true);
+            GameObject secretWall = GameObject.FindGameObjectWithTag("SecretWall");
+
+            if (secretWall != null)
+            {
+                secretWall.SetActive(false);
+                secretRoom.SetActive(true);
+            }
         }
 
         else if (treasurseLeft <= 0)
