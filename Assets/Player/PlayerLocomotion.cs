@@ -10,6 +10,7 @@ public class PlayerLocomotion : MonoBehaviour
     private Rigidbody player;
     private Animator animator;
     private Vector3 moveDirection;
+    private AudioSource audioSource;
 
     [SerializeField] private Transform cameraObject;
     [SerializeField] private CinemachineFreeLook cinemachineCamera; 
@@ -22,6 +23,8 @@ public class PlayerLocomotion : MonoBehaviour
         animator = GetComponent<Animator>();
         inputManager = GetComponent<InputManager>();
         player = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+
         cameraObject = Camera.main.transform;
 
         if (player == null)
@@ -50,10 +53,15 @@ public class PlayerLocomotion : MonoBehaviour
             moveDirection.Normalize();
             moveDirection *= movementSpeed;
             player.linearVelocity = new Vector3(moveDirection.x, player.linearVelocity.y, moveDirection.z);
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
         }
         else
         {
             animator.SetBool("IsMoving", false);
+            audioSource.Stop();
             player.linearVelocity = new Vector3(0, player.linearVelocity.y, 0);
         }
     }

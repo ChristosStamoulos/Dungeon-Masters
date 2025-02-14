@@ -5,10 +5,11 @@ public class TrophyScript : MonoBehaviour
     public GameObject TargetTrophyObject = null;
 
     private bool _hasScored = false;
+    public AudioSource audioSource;
 
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -21,6 +22,7 @@ public class TrophyScript : MonoBehaviour
             {
                 TargetTrophyObject.SetActive(false);
                 playerState.OnPickupTreasure();
+                audioSource.Play();
             }
         }
     }

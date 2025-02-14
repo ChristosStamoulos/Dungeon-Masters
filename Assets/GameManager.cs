@@ -82,17 +82,21 @@ public class GameManager : MonoBehaviour
 
     public int GetTreasuresLeft()
     {
-        return GameObject.FindGameObjectsWithTag("Treasure").Length;
+        int treasurseLeft = GameObject.FindGameObjectsWithTag("Treasure").Length;
+
+        if (!secretRoom.activeSelf)
+        {
+             treasurseLeft+= 1;
+        }
+
+        return treasurseLeft;
     }
 
     public void OnPickupTreasure()
     {
         int treasurseLeft = GetTreasuresLeft();
 
-        if (!secretRoom.activeSelf)
-        {
-            treasurseLeft += 1;
-        }
+       
 
         UIManager.SetTreasureCount(treasurseLeft);
 
