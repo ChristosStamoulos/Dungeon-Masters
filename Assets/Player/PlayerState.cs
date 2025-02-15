@@ -40,12 +40,34 @@ public class PlayerState : MonoBehaviour
         Health -= damage;
         UIManager.SetHealth(Health);
 
-        if (Health <= 0)
+        GameObject hurtObject = GameObject.Find("Hurt");
+
+        if (hurtObject != null)
         {
-            GameManager.GameOver();
+            AudioSource hurtAudioSource = hurtObject.GetComponent<AudioSource>();
+
+            if (hurtAudioSource != null)
+            {
+                hurtAudioSource.Play();
+            }
         }
 
-        Debug.Log("Updated health: " + Health.ToString());
+        if (Health <= 0)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+            {
+                AudioSource runningAudioSource = player.GetComponent<AudioSource>();
+
+                if (runningAudioSource != null)
+                {
+                    runningAudioSource.Stop();
+                }
+            }
+
+            GameManager.GameOver();
+        }
     }
 
     public void OnPickupTreasure()

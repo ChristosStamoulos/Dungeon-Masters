@@ -3,9 +3,23 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
+    private DateTime _lastCollisionTimestamp = DateTime.MinValue;
+    private GameManager _gameManager;
+
     public int Damage { get; set; } = 1;
 
-    private DateTime _lastCollisionTimestamp = DateTime.MinValue;
+    public GameManager GameManager
+    { 
+        get
+        {
+            if (_gameManager == null)
+            {
+                _gameManager = GameObject.FindAnyObjectByType<GameManager>();
+            }
+
+            return _gameManager;
+        }
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -30,5 +44,22 @@ public class Trap : MonoBehaviour
         {
             playerState.Damage(Damage);
         }
+    }
+
+    protected bool IsWithinPlayerRange()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player == null)
+        {
+            return false;
+        }
+
+        return Vector3.Distance(player.transform.position, transform.position) < 10.0f;
+    }
+
+    protected bool AllowSounds()
+    {
+        return GameManager != null && GameManager.IsGameRunning() && IsWithinPlayerRange();
     }
 }

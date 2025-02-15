@@ -1,13 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Arrows_movement : Trap
 {
+    private AudioSource _audioSource;
 
     public GameObject Arrow;
     public float moveSpeed;
     public float distance;
+
+    private AudioSource AudioSource
+    {
+        get
+        {
+            if (_audioSource == null)
+            {
+                _audioSource = GetComponent<AudioSource>();
+            }
+
+            return _audioSource;
+        }
+    }
 
     void Start()
     {
@@ -16,11 +29,19 @@ public class Arrows_movement : Trap
 
     IEnumerator Move_Arrows()
     {
+        float randomWaitTime = Random.Range(0f, 1f);
+
+        // Wait for that amount of time
+        yield return new WaitForSeconds(randomWaitTime);
 
         Vector3 Starting_Position = new Vector3(Arrow.transform.position.x, Arrow.transform.position.y, Arrow.transform.position.z);
 
         while (true)
         {
+            if (AllowSounds() && !AudioSource.isPlaying)
+            {
+                AudioSource.Play();
+            }
 
             Vector3 newPosition = Starting_Position;
 

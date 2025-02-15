@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private UIManager _uiManager = null;
+    private MusicManager _musicManager = null;
+    private bool _isGameRunning = false;
 
     public GameObject gameOverPanel;
     public GameObject WinPanel;
@@ -26,12 +28,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private MusicManager MusicManager
+    {
+        get
+        {
+            if (_musicManager == null)
+            {
+                _musicManager = FindAnyObjectByType<MusicManager>();   
+            }
+
+            return _musicManager;
+        }
+    }
+
     private void Start()
     {
         UIManager.SetTreasureCount(GetTreasuresLeft());
         EnableControls(false);
         EnableCamera(false);
         CameraFollowObject(GameObject.FindGameObjectWithTag("MainDragon"));
+        MusicManager.Play();
     }
 
     #region Camera
@@ -96,8 +112,6 @@ public class GameManager : MonoBehaviour
     {
         int treasurseLeft = GetTreasuresLeft();
 
-       
-
         UIManager.SetTreasureCount(treasurseLeft);
 
         if (treasurseLeft == 1)
@@ -126,6 +140,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        MusicManager.Stop();
         gameOverPanel.SetActive(true);
         EnableCamera(false);
         Pause();
@@ -137,36 +152,39 @@ public class GameManager : MonoBehaviour
 
     public void Begin()
     {
-        Debug.Log("Begin()");
-
         mainMenuPanel.SetActive(false);
         CameraFollowObject(GameObject.Find("CameraFocus"));
         Resume();
         EnableControls(true);
         EnableCamera(true);
         UIManager.ShowGameUI(true);
+        _isGameRunning = true;
     }
 
     public void Pause()
     {
         Time.timeScale = 0.0f;
         EnableCamera(false);
+        _isGameRunning = false;
     }
 
     public void Resume()
     {
         Time.timeScale = 1.0f;
         EnableCamera(true);
+        _isGameRunning = true;
     }
 
     public void Restart()
     {
+        _isGameRunning = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Resume();
     }
 
     public void MainMenu()
     {
+        _isGameRunning = false;
         Restart();
         gameOverPanel.SetActive(false);
         WinPanel.SetActive(false);
@@ -180,6 +198,11 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public bool IsGameRunning()
+    {
+        return _isGameRunning;
     }
 
     #endregion   
