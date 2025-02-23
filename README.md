@@ -5,9 +5,9 @@ This repository contains the Unity project for the "Dungeon Masters" dungeon cra
 
 ## Features
 - **Dungeon Design**: The game map features a dungeon that is designed with interconnected rooms and corridors.  
-- **Traps**: Every room except the central one contains traps consisting a "dangerous" for collecting  trophies 
+- **Traps**: Every room except the central one contains traps consisting a "dangerous" path for collecting  trophies 
 - **Treasure Collection**: The player has to collect all the trophies to win the game.
--  **Lighting and Effects**:  Appropriate light sources and effects are used to create an immersive environment.
+- **Lighting and Effects**:  Appropriate light sources and effects are used to create an immersive environment.
 - **Interactive Elements** Treasures and traps interact with the player using collision detection and life management.
 - **Multilevel Dungeon**: After the player collects all the trophies of the first floor there is an elevator that guides him to the room of the last trophy underground.
 
@@ -20,6 +20,6 @@ This repository contains the Unity project for the "Dungeon Masters" dungeon cra
 
 ## Collaborators
 
-[Lumpros Staikos](https://github.com/Lumpros)
-[Kwstantinos Lagos](https://github.com/KonstantinosLgs) 
-[Christos Stamoulos](https://github.com/ChristosStamoulos)
+1. [Lumpros Staikos](https://github.com/Lumpros)
+2. [Kwstantinos Lagos](https://github.com/KonstantinosLgs) 
+3. [Christos Stamoulos](https://github.com/ChristosStamoulos)
